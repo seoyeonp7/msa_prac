@@ -14,11 +14,21 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: first-service
-          uri: http://127.0.0.1:9001
+        - id: user-service
+          uri: lb://USER-SERVICE
           predicates:
-            - Path=/first-service/**
-        - id: second-service
-          uri: http://127.0.0.1:9002
-          predicates:
-            - Path=/second-service/**
+            - Path=/user-service/**
+#        - id: first-service
+#          uri: http://127.0.0.1:9001
+#          predicates:
+#            - Path=/first-service/**
+#        - id: second-service
+#          uri: http://127.0.0.1:9002
+#          predicates:
+#            - Path=/second-service/**
+#      default-filters:
+#        - name: GlobalFilter
+#          args:
+#            baseMessage: Spring Cloud Gateway Global Filter
+#            preLogger: true
+#            postLogger: true
