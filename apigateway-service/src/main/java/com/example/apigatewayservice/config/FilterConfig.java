@@ -1,13 +1,11 @@
-package com.example.apigatewayservice.Config;
+package com.example.apigatewayservice.config;
 
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
+//@Configuration
 public class FilterConfig {
-    @Bean
+    //    @Bean
     public RouteLocator gatewayRoutes(RouteLocatorBuilder builder) {
         // application.yml 에서 하던 작업을 java class 로 옮김
         return builder.routes()

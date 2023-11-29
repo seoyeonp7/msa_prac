@@ -3,8 +3,8 @@ server:
 
 eureka:
   client:
-    fetch-registry: false
-    register-with-eureka: false
+    fetch-registry: true
+    register-with-eureka: true
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
 
@@ -13,22 +13,42 @@ spring:
     name: apigateway-service
   cloud:
     gateway:
+      default-filters:
+        - name: GlobalFilter
+          args:
+            baseMessage: Spring Cloud Gateway Global Filter
+            preLogger: true
+            postLogger: true
       routes:
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
             - Path=/user-service/**
-#        - id: first-service
-#          uri: http://127.0.0.1:9001
-#          predicates:
-#            - Path=/first-service/**
-#        - id: second-service
-#          uri: http://127.0.0.1:9002
-#          predicates:
-#            - Path=/second-service/**
-#      default-filters:
-#        - name: GlobalFilter
-#          args:
-#            baseMessage: Spring Cloud Gateway Global Filter
-#            preLogger: true
-#            postLogger: true
+        - id: first-service
+          #          uri: http://127.0.0.1:9001
+          uri: lb://MY-FIRST-SERVICE
+          predicates:
+            - Path=/first-service/**
+          filters:
+            #            - AddRequestHeader=first-request, first-request-header2
+            #            - AddResponseHeader=first-response, first-response-header2
+            - name: CustomFilter
+            - name: LoggingFilter
+              args:
+                baseMessage: Hi, there.
+                preLogger: true
+                postLogger: true
+        - id: second-service
+          #          uri: http://127.0.0.1:9002
+          uri: lb://MY-SECOND-SERVICE
+          predicates:
+            - Path=/second-service/**
+          filters:
+            #            - AddRequestHeader=second-request, second-request-header2
+            #            - AddResponseHeader=second-response, second-response-header2
+            - name: CustomFilter
+            - name: LoggingFilter
+              args:
+                baseMessage: Hi, there.
+                preLogger: true
+                postLogger: true
