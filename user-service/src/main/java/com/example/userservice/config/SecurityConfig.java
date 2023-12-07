@@ -5,6 +5,7 @@ import com.example.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final Environment env;
     private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ObjectPostProcessor<Object> objectPostProcessor;
@@ -32,7 +34,6 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
 //                                .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
-//                        .requestMatchers(new MvcRequestMatcher(introspector, "/users/**")).permitAll()
                                 .requestMatchers(new MvcRequestMatcher(introspector, "/**")).permitAll()
                                 .requestMatchers(new IpAddressMatcher("127.0.0.1")).permitAll() // <- IP 변경
                 )
@@ -50,8 +51,9 @@ public class SecurityConfig {
         return authenticationFilter;
     }
 
+    // db_pwd(encrypted) == input_pwd(encrypted)
     public AuthenticationManager authenticationManager(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
+        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
 
         return auth.build();
     }
