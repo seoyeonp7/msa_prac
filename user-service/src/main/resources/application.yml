@@ -38,3 +38,4 @@ logging:
 
 token:
   expiration_time: 86400000 #하루짜리 토큰
+  secret: userstokens
