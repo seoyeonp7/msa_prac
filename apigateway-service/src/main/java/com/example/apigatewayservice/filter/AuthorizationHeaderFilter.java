@@ -1,8 +1,6 @@
 package com.example.apigatewayservice.filter;
 
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -14,8 +12,6 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
-
-import java.security.Key;
 
 @Slf4j
 @Component
@@ -38,7 +34,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
             }
 
             String authorizationHeader = request.getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
-            String jwt = authorizationHeader.replace("Bearer", "");
+            String jwt = authorizationHeader.replace("Bearer", "").trim();
 
             if (!isJwtValid(jwt)) {
                 return onError(exchange, "JWT token is not valid", HttpStatus.UNAUTHORIZED);
@@ -70,11 +66,11 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
 
         String subject = null;
         try {
-            byte[] keyBytes = Keys.secretKeyFor(SignatureAlgorithm.HS512).getEncoded();
-            Key key = Keys.hmacShaKeyFor(keyBytes);
+//            byte[] keyBytes = Keys.secretKeyFor(SignatureAlgorithm.HS512).getEncoded();
+//            Key key = Keys.hmacShaKeyFor(keyBytes);
 
-//            subject = Jwts.parser().setSigningKey(env.getProperty("token.secret")).build().parseClaimsJws(jwt).getBody().getSubject();
-            subject = Jwts.parser().setSigningKey(key).build().parseClaimsJws(jwt).getBody().getSubject();
+            subject = Jwts.parser().setSigningKey(env.getProperty("token.secret")).build().parseClaimsJws(jwt).getBody().getSubject();
+//            subject = Jwts.parser().setSigningKey(key).build().parseClaimsJws(jwt).getBody().getSubject();
         } catch (Exception ex) {
             // Compact JWT strings may not contain whitespace.
             returnValue = false;

@@ -52,8 +52,15 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .setSubject(userDetails.getUserId())
                 .setExpiration(new Date(System.currentTimeMillis() + Long.parseLong(env.getProperty("token.expiration_time"))))
 //                .signWith(SignatureAlgorithm.HS512, key)
-                .signWith(SignatureAlgorithm.HS512, env.getProperty("token.secret"))
+                .signWith(SignatureAlgorithm.HS256, env.getProperty("token.secret"))
                 .compact();
+
+        /*
+            io.jsonwebtoken.security.WeakKeyException: The signing key's size is 48 bits which is not secure enough for the HS512 algorithm.
+            The JWT JWA Specification (RFC 7518, Section 3.2) states that keys used with HS512 MUST have a size >= 512 bits
+            (the key size must be greater than or equal to the hash output size).
+            Consider using the io.jsonwebtoken.security.Keys class's 'secretKeyFor(SignatureAlgorithm.HS512)' method to create a key guaranteed to be secure enough for HS512.
+         */
 
         response.addHeader("token", token);
         response.addHeader("userId", userDetails.getUserId());
