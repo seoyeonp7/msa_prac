@@ -66,13 +66,8 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
 
         String subject = null;
         try {
-//            byte[] keyBytes = Keys.secretKeyFor(SignatureAlgorithm.HS512).getEncoded();
-//            Key key = Keys.hmacShaKeyFor(keyBytes);
-
             subject = Jwts.parser().setSigningKey(env.getProperty("token.secret")).build().parseClaimsJws(jwt).getBody().getSubject();
-//            subject = Jwts.parser().setSigningKey(key).build().parseClaimsJws(jwt).getBody().getSubject();
         } catch (Exception ex) {
-            // Compact JWT strings may not contain whitespace.
             returnValue = false;
         }
 
