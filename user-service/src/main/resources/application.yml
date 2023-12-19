@@ -39,3 +39,10 @@ logging:
 token:
   expiration_time: 86400000 #하루짜리 토큰
   secret: testSecretKey20230327testSecretKey20230327testSecretKey20230327
+
+# actuator 등록
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans

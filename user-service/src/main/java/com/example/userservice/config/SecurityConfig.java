@@ -34,6 +34,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
 //                                .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
+                                .requestMatchers(new MvcRequestMatcher(introspector, "/actuator/**")).permitAll()
                                 .requestMatchers(new MvcRequestMatcher(introspector, "/**")).permitAll()
                                 .requestMatchers(new IpAddressMatcher("127.0.0.1")).permitAll() // <- IP 변경
                 )

@@ -94,3 +94,10 @@ spring:
 
 token:
   secret: testSecretKey20230327testSecretKey20230327testSecretKey20230327
+
+# actuator 등록
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, httptrace
