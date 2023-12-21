@@ -1,5 +1,8 @@
+# bootstrap.yml 이 application.yml 보다 우선됨
 spring:
   cloud:
     config:
       uri: http://127.0.0.1:8888
       name: ecommerce
+  profiles:
+    active: dev

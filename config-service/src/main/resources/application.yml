@@ -4,8 +4,15 @@ server:
 spring:
   application:
     name: config-service
+  profiles:
+    active: native
   cloud:
     config:
       server:
+        native:
+          search-locations: file:${user.home}/IdeaProjects/native-file-repo
         git:
-          uri: file://C:/Users/argonet/IdeaProjects/config-repo
+#          uri: file://C:/Users/argonet/IdeaProjects/config-repo
+          uri: https://github.com/seoyeonp7/config-repo
+#          username:
+#          password:
