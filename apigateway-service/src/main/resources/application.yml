@@ -107,8 +107,8 @@ spring:
                 preLogger: true
                 postLogger: true
 
-token:
-  secret: testSecretKey20230327testSecretKey20230327testSecretKey20230327
+#token:
+#  secret: testSecretKey20230327testSecretKey20230327testSecretKey20230327
 
 # actuator 등록
 management:

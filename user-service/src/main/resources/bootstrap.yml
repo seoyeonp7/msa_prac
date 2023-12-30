@@ -2,6 +2,7 @@ spring:
   cloud:
     config:
       uri: http://127.0.0.1:8888
-      name: config-service # application 네임을 직접 명시했기 때문에 application.yml 불러올 것
+      name: user-service
+#      name: config-service # application 네임을 직접 명시했기 때문에 application.yml 불러올 것
 #  profiles:
 #    active: dev
