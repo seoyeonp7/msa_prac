@@ -20,7 +20,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/order-service")
+@RequestMapping("/")
 public class OrderController {
 
     private final Environment env;
